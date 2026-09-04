@@ -13,18 +13,35 @@ use mini_os::println;
 pub extern "C" fn _start() -> ! {
     println!("Hello World{}", "!");
 
+     mini_os::init(); // new
+
+    // fn stack_overflow() {
+    //     stack_overflow(); // for each recursion, the return address is pushed
+    // }
+
+    // // trigger a stack overflow
+    // stack_overflow();
+
+
+   
     #[cfg(test)]
     test_main();
 
-    loop {}
+    println!("It did not crash!");
+
+    mini_os::hlt_loop();  
 }
+
+
+
+
 
 /// This function is called on panic.
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+   mini_os::hlt_loop();  
 }
 
 #[cfg(test)]
