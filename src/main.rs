@@ -63,9 +63,6 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 }
 
 
-
-
-
 /// This function is called on panic.
 #[cfg(not(test))]
 #[panic_handler]
