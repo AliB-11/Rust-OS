@@ -10,7 +10,9 @@ This project is based on the implementation of Philipp Oppermann's *["Writing an
 
 ## Foundation
 The kernel boots into a freestanding x86_64 environment with VGA text output (memory-mapped IO) and serial output over an emulated UART (port-mapped IO), used for all logging. A full interrupt descriptor table handles CPU exceptions and faults, with spin locks protecting shared state, extended to hardware interrupts for the timer and keyboard. Paging provides a working virtual memory setup, and two custom heap allocators (bump and fixed-size block) enable dynamic memory (`Vec`, `Box`, etc.) at runtime. A custom test framework, built on Rust's `custom_test_frameworks` feature, runs unit and integration tests with automated pass/fail reporting via QEMU's `isa-debug-exit` device and serial output.
+
 <img width="724" height="457" alt="image" src="https://github.com/user-attachments/assets/be6d334e-df60-4462-9af8-0b88f6a80d8a" />
+
 VGA output dynamically allocating heap memory 
 
 ## Scheduler
