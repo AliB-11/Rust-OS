@@ -23,6 +23,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     
     println!("Hello World{}", "!");
     mini_os::init();
+    x86_64::instructions::interrupts::disable();
     
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
     let mut mapper = unsafe { memory::init(phys_mem_offset) };
@@ -32,6 +33,9 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
 
     allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
+
+    mini_os::task::init();
+    x86_64::instructions::interrupts::enable();
 
     // allocate a number on the heap
     let heap_value = Box::new(41);

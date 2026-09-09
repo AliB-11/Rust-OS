@@ -7,6 +7,7 @@ use lazy_static::lazy_static;
 
 
 use crate::gdt;
+use crate::task;
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
@@ -45,12 +46,12 @@ use crate::print;
 extern "x86-interrupt" fn timer_interrupt_handler(
     _stack_frame: InterruptStackFrame)
 {
-    print!(".");
-
     unsafe {
         PICS.lock()
             .notify_end_of_interrupt(InterruptIndex::Timer.as_u8());
     }
+
+    task::timer_tick();
 }
 
 extern "x86-interrupt" fn keyboard_interrupt_handler(
